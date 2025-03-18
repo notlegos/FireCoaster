@@ -1,5 +1,5 @@
 {
-    "name": "NotLegos4",
+    "name": "FireCoaster",
     "description": "",
     "dependencies": {
         "core": "*",
@@ -17,7 +17,7 @@
         "test.ts"
     ],
     "targetVersions": {
-        "target": "7.0.51",
+        "target": "7.0.57",
         "targetId": "microbit"
     },
     "supportedTargets": [
