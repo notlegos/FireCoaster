@@ -11,7 +11,8 @@
         "README.md",
         "displaySendBuffer.asm",
         "planetxbasic.ts",
-        "notlegos.ts"
+        "notlegos.ts",
+        "wukong.ts"
     ],
     "testFiles": [
         "test.ts"

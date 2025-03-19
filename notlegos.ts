@@ -5,44 +5,6 @@ namespace notLegos {
 
 
 /// BEGIN RADIO ///
-
-    //% blockId=NL_Radio_SayLights
-    //% subcategory="Radio" Group="Radio"
-    //% block="say lights %light show %effect"
-    export function sayLights(light: vfxRegion, effect: vfxEffect) {
-        radioSay("L" + light, effect)
-        basic.pause(20)
-    }
-
-    //% blockId=NL_Radio_SayMotor
-    //% subcategory="Radio" Group="Radio"
-    //% block="say motor %motor set %setting"
-    export function sayMotor(motor: motors, setting: motorState) {
-        radioSay("M" + motor, setting)
-        basic.pause(20)
-    }
-
-    export enum side {left=0, right=1}
-    //% blockId=NL_Radio_SayIndicate
-    //% subcategory="Radio" Group="Radio"
-    //% block="say indicate %theSide color to %theColor"
-    export function sayIndicate(theSide: side, theColor: hues) {
-        radioSay("I" + theSide, theColor)
-        basic.pause(20)
-    }
-    //% blockId=NL_Radio_SayFire
-    //% subcategory="Radio" Group="Radio"
-    //% block="set parade mode to fire %fireOn"
-    export function sayFireMode(fireOn: boolean) {
-        if(fireOn){
-            radioSay("P",1)
-        }else{
-            radioSay("P",0)
-        }
-        basic.pause(20)
-    }
-
-
 /// END RADIO ///
 
 /// BEGIN NEOPIXEL ///
@@ -500,31 +462,52 @@ namespace notLegos {
 
 /// BEGIN SONAR ///
 
-    let sonarPinT = DigitalPin.P0
-    let sonarPinE = DigitalPin.P0
 
-    //% blockId=NL_SENSOR_SonarFirstRead
-    //% subcategory="Sensors" Group="Sensors"
-    //% block="first distance from sonar at %pin1|%pin2"
-    //% weight=101
-    export function SonarFirstRead(pin1: DigitalPin, pin2: DigitalPin): number {
-        sonarPinT = pin1
-        sonarPinE = pin2
-        pins.setPull(sonarPinT, PinPullMode.PullNone)
-        return SonarNextRead()
+    export enum DistanceUnit {
+        //% block="mm" enumval=0
+        Distance_Unit_mm,
+
+        //% block="cm" enumval=1
+        Distance_Unit_cm,
+
+        //% block="inch" enumval=2
+        Distance_Unit_inch,
     }
 
-    //% blockId=NL_SENSOR_SonarNextRead
-    //% subcategory="Sensors" Group="Sensors"
-    //% block="next sonar distance"
-    //% weight=100
-    export function SonarNextRead(): number {
-        pins.digitalWritePin(sonarPinT, 0)
+    //% blockId=sonardistance block="Ultrasonic distance in %distance_unit |at|pin %pin"
+    //% weight=10
+    export function sonardistance(distance_unit: DistanceUnit, pin: DigitalPin): number {
+
+        // send pulse
+        pins.setPull(pin, PinPullMode.PullNone)
+        pins.digitalWritePin(pin, 0)
         control.waitMicros(2)
-        pins.digitalWritePin(sonarPinT, 1)
+        pins.digitalWritePin(pin, 1)
         control.waitMicros(10)
-        pins.digitalWritePin(sonarPinT, 0)
-        return Math.floor(pins.pulseIn(sonarPinE, PulseValue.High, 25000) * 34 / 2000)
+        pins.digitalWritePin(pin, 0)
+
+        // read pulse
+        let d = pins.pulseIn(pin, PulseValue.High, 25000)  // 8 / 340 = 
+        let distance = d * 9 / 6 / 58
+
+        if (distance > 400) {
+            distance = 0
+        }
+
+        switch (distance_unit) {
+            case 0:
+                return Math.floor(distance * 10) //mm
+                break
+            case 1:
+                return Math.floor(distance)  //cm
+                break
+            case 2:
+                return Math.floor(distance / 254)   //inch
+                break
+            default:
+                return 0
+        }
+
     }
 
 /// END SONAR ///
