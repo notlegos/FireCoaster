@@ -11,7 +11,7 @@ namespace notLegos {
     export enum hues { red = 0, orange = 15, yellow = 40, lime = 85, green = 110, cyan = 170, blue = 240, purple = 260, pink = 310 }
     export enum vfxEffect { parade = 0, indicateL = 1, indicateR = 2, idle = 3, glow = 4, mine = 5, off = 6, active = 7, green=8, yellow=9, orange=10, red=11}
     let NeoWheel: Strip = null; let vfx_light_count = 0
-    let kongPin = DigitalPin.P16; let wheelPin = DigitalPin.P12; let sockPin = DigitalPin.P8; let scorePin = DigitalPin.P13; let brickPin = DigitalPin.P15; let stripPin = DigitalPin.P14;
+    let kongPin = DigitalPin.P16; let brickPin = DigitalPin.P15;
     let vfx_mine_tog: number[] = []; let vfx_mine_hue: number[] = []; let vfx_mine_sat: number[] = []; let vfx_mine_lum: number[] = []; let vfx_fire_colors: number[] = []
     let vfx_indicate_tog: number[] = []; let vfx_indicate_hue: number[] = []; let vfx_indicate_sat: number[] = []; let vfx_indicate_lum: number[] = [];
     let vfx_idle_tog: number[] = []; let vfx_idle_hue: number[] = []; let vfx_idle_sat: number[] = []; let vfx_idle_lum: number[] = []
@@ -72,16 +72,8 @@ namespace notLegos {
         show() { 
             for (let i = 0; i < 4; i++) {this.buf[i * 3 + 0] = vfx_master_g[paletteKong[i]]; this.buf[i * 3 + 1] = vfx_master_r[paletteKong[i]]; this.buf[i * 3 + 2] = vfx_master_b[paletteKong[i]]}
             sendBuffer(this.buf.slice(0, 4 * 3), kongPin);
-            for (let i = 0; i < 20; i++) {this.buf[i * 3 + 0] = vfx_master_g[paletteWheel[i]]; this.buf[i * 3 + 1] = vfx_master_r[paletteWheel[i]]; this.buf[i * 3 + 2] = vfx_master_b[paletteWheel[i]]}
-            sendBuffer(this.buf.slice(0, 20*3), wheelPin);
-            for (let i = 0; i < 18; i++) {this.buf[i * 3 + 0] = vfx_master_g[paletteSock[i]]; this.buf[i * 3 + 1] = vfx_master_r[paletteSock[i]]; this.buf[i * 3 + 2] = vfx_master_b[paletteSock[i]]}
-            sendBuffer(this.buf.slice(0, 18 * 3), sockPin);
-            for (let i = 0; i < 8; i++) {this.buf[i * 3 + 0] = vfx_master_g[paletteScore[i]]; this.buf[i * 3 + 1] = vfx_master_r[paletteScore[i]]; this.buf[i * 3 + 2] = vfx_master_b[paletteScore[i]]}
-            sendBuffer(this.buf.slice(0, 8 * 3), scorePin);
             for (let i = 0; i < 8; i++) {this.buf[i * 3 + 0] = vfx_master_g[paletteBricks[i]]; this.buf[i * 3 + 1] = vfx_master_r[paletteBricks[i]]; this.buf[i * 3 + 2] = vfx_master_b[paletteBricks[i]]}
             sendBuffer(this.buf.slice(0, 8 * 3), brickPin);
-            for (let i = 0; i < 20; i++) {this.buf[i * 3 + 0] = vfx_master_g[paletteStrip[i]]; this.buf[i * 3 + 1] = vfx_master_r[paletteStrip[i]]; this.buf[i * 3 + 2] = vfx_master_b[paletteStrip[i]]}
-            sendBuffer(this.buf.slice(0, 20 * 3), stripPin);
         }  //Send all the changes to the strip.
 
         length() { return this._length; }   //Gets the number of pixels declared on the strip
