@@ -28,6 +28,7 @@ wuKong.setServoSpeed(wuKong.ServoList.S7, 0)
 wuKong.setServoSpeed(wuKong.ServoList.S0, 0)
 wuKong.setServoSpeed(wuKong.ServoList.S5, 0)
 wuKong.setServoAngle(wuKong.ServoTypeList._360, wuKong.ServoList.S4, 300)
+wuKong.setServoAngle(wuKong.ServoTypeList._360, wuKong.ServoList.S3, 0)
 notLegos.paradeMode(false)
 notLegos.castleLights()
 notLegos.setEffect(notLegos.vfxRegion.BrickAll, notLegos.vfxEffect.parade)
@@ -158,18 +159,6 @@ loops.everyInterval(500, function () {
     }
 })
 loops.everyInterval(500, function () {
-    if (positioned) {
-        while (isTBD) {
-            basic.pause(10)
-        }
-        wuKong.setServoAngle(wuKong.ServoTypeList._360, wuKong.ServoList.S3, 50)
-        wuKong.setServoAngle(wuKong.ServoTypeList._360, wuKong.ServoList.S4, 50)
-    }
-})
-loops.everyInterval(30, function () {
-    notLegos.castleSayTick()
-})
-loops.everyInterval(100, function () {
     for (let index = 0; index < 0; index++) {
         if (isCandleFlame) {
             basic.pause(2000)
@@ -181,6 +170,25 @@ loops.everyInterval(100, function () {
             wuKong.setMotorSpeed(wuKong.MotorList.M1, 0)
         }
     }
+})
+loops.everyInterval(500, function () {
+    if (positioned) {
+        while (isTBD) {
+            basic.pause(10)
+        }
+        wuKong.setServoAngle(wuKong.ServoTypeList._360, wuKong.ServoList.S3, 340)
+        basic.pause(1000)
+        wuKong.setServoAngle(wuKong.ServoTypeList._360, wuKong.ServoList.S2, 210)
+        basic.pause(1000)
+        wuKong.setServoAngle(wuKong.ServoTypeList._360, wuKong.ServoList.S2, 0)
+        basic.pause(500)
+        wuKong.setServoAngle(wuKong.ServoTypeList._360, wuKong.ServoList.S4, 50)
+        basic.pause(500)
+        wuKong.setServoAngle(wuKong.ServoTypeList._360, wuKong.ServoList.S3, 0)
+    }
+})
+loops.everyInterval(30, function () {
+    notLegos.castleSayTick()
 })
 loops.everyInterval(100, function () {
     notLegos.changeThree()
